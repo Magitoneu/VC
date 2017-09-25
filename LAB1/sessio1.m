@@ -30,5 +30,16 @@ surf(C, B, W)
 
 
 %%5 contour(fun) per trobar mes o menys el minim
+x = -5:0.2:5;
+y = -5:0.2:5;
+[X Y] = meshgrid(x,y);
+%
 
-f2 = @(x,y) (x.^2+y-5).^2+(x+y.^2-9).^2
+f2 = (X.^2+Y-5).^2+(X+Y.^2-9).^2
+contour(f2)
+title('Function contour')
+
+%[x y] = fminbnd(@(x,y)(x.^2+y-5).^2+(x+y.^2-9).^2,-2,3,-3,4)
+
+[v p] = min(f2); [v1 p1] = min(min(f2)); [p1 p(p1)];
+MinimumValue = f2(p(p1),p1)
