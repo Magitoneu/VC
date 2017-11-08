@@ -67,8 +67,8 @@ subplot(2,1,2), imshow(Ik, []);
 
 %%Aplicar funcio propia a una imatge
 %If = colfilt(I,[f c], 'sliding', @funcio); f = files, c = columnes dels blocs. 
-
-If = colfilt(Isp,[3 3], 'sliding', @(x) colFunc(x));
+k = 2;
+If = colfilt(Isp,[3 3], 'sliding', @(x) colFunc(x,k));
 figure(4), imshow(If, []);
 
 
