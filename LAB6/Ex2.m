@@ -1,10 +1,7 @@
-
-
 I = imread('normal-blood1.jpg');
 BW = rgb2gray(I);
 BW = BW < 210;
 BW = imfill(BW,'holes');
-imshow(BW);
 SE = strel('disk',1);
 BW = imerode(BW,SE);
 
@@ -26,39 +23,43 @@ BWR = imfill(BWR,'holes');
 
 %Distance Transformation
 DT = bwdist(1-BW, 'euclidean');
-figure(3), imshow(DT,[]);
+figure(1), imshow(DT,[]),title('Distance Transformation (no edges)');
 
 BDT = DT > 28.5;
-figure(4), imshow(BDT,[]); 
+figure(2), imshow(BDT,[]), title('Binaritzacio de DT (no edges)')
 
 s = regionprops(BDT, 'centroid');
 centroids = cat(1,s.Centroid);
 
 %Distance Transformation EDGES
 DTEDGE = bwdist(1-BWR, 'euclidean');
+figure(3), imshow(DTEDGE, []), title('Distance Transformation Edges');
 BDTEDGE = DTEDGE > 19;
+figure(4), imshow(BDTEDGE,[]), title('Binaritzacio de DT Edges');
+
 
 sEDGE = regionprops(BDTEDGE, 'centroid');
 centroidsEDGE = cat(1,sEDGE.Centroid);
 
-%% EX3
+allCentroids = [centroids; centroidsEDGE];
+distances(:, :) = pdist2(allCentroids(:, :), allCentroids(:, :), 'euclidean');
 
-AllCentroids = [centroids; centroidsEDGE];
+distances(distances == 0) = Inf;
+dVector = min(distances);
+[~, p] = max(dVector);
 
-
-
-
+I = insertMarker(I, allCentroids(p, :),'color','g', 'size', 20);
 
 
 %Imatge amb les celules marcades
-figure(5),
-imshow(I,[]);
+figure(5), imshow(I,[]), title('Cèl·lules marcades');
 hold on;
 plot(centroids(:,1), centroids(:,2), 'b*')
 plot(centroidsEDGE(:,1), centroidsEDGE(:,2),'b*')
 hold off;
 
 NumeroCeles = numel(s) + numel(sEDGE);
+
 
 
 
