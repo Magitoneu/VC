@@ -1,11 +1,7 @@
-clear all
 I = rgb2gray(imread('Chess figures.png'));
 
 BW = I < 128;
 BW = imclose(BW, strel('disk', 1));
-BW = imrotate(BW,30);
-BW = imopen(BW, strel('disk',10));
-
 cc = bwconncomp(BW);
 lab = bwlabel(BW);
 
@@ -38,5 +34,16 @@ NM = NumMaxims'.^2;
 D = DiffMinMax'.^2./Maxims';
 M = Maxims'.^2./Area;
 
-O22 = [S NM D M O1 O2 O3];
+O = [S NM D M O1 O2 O3];
+
+res = 0; suma_maxims = 0; suma_2ndMax = 0;
+for i = 1:1
+   [L, scores] = predictor.predict(O);
+    sc_sort = sort(scores, 2);
+    maxims = sc_sort(:, 6);
+    sc_sort(:, 6) = 0;
+    suma_maxims = suma_maxims + sum(maxims)/1;
+    suma_2ndMax = suma_2ndMax + sum(max(sc_sort, [], 2))/1;
+    res = res + (suma_maxims - suma_2ndMax)/1;
+end
 

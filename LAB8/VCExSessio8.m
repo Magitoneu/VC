@@ -25,6 +25,10 @@ O2 = cell2mat(struct2cell(obs2))';
 O2(:, 1) = O2(:,1).^2 ./ Area;
 O2(:, 2) = O2(:,2).^2 ./ Area;
 
+%Centroid
+
+obs4 = regionprops(cc, 'Centroid');
+O4 = cell2mat(struct2cell(obs4))';
 
 
 %Transformacions 
@@ -39,14 +43,19 @@ for i=1:size(cc.PixelIdxList,2)
     BalancedDiff(i) = PixelDiff / size(cc.PixelIdxList{i},1) * 100;
 end
 
+%
 
 
-O = [O.^2 O2.^2 O3.^2 BalancedDiff.^2'];
+clear O
+S = (sumes'.^2)./Area;
+M = (Maxims'.^2)./Area;
+D = (DiffMinMax'.^2)./Area;
+O = [S M D];
 
-O77 = [O; OO];
+%O77 = [O; OO];
 
-c = ['H', 'K', 'Q', 'B', 'R', 'P', 'H', 'K', 'Q', 'B', 'R', 'P']';
-predictor = TreeBagger(100, O77, c);
+c = ['H', 'K', 'Q', 'B', 'R', 'P']';
+predictor = TreeBagger(100, O, c);
 
 
 res = 0;
