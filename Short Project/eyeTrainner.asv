@@ -1,0 +1,21 @@
+
+n = length(images);
+
+
+for i = 1:n
+    
+   I = uint8(squeeze(images(i,:,:)));
+   [lx, ly, rx, ry] = eyes(i,:);
+   D = pdist([lx,ly;rx,ry],'euclidean');
+   Lini = [lx - 0.65*D/2, ly - 0.65*D/2];
+   Rini = [rx - 0.65*D/2, ry - 0.65*D/2];
+   
+   Ieyel = imcrop(I,[Lini(1) Lini(2) ]);
+   Ieyer = imcrop(I,[]);
+   %Training eyes
+   Obs = getObs(I);
+   
+   %Training no eyes
+   
+end
+
