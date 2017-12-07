@@ -1,10 +1,10 @@
 
 n = length(images);
-OE1 = zeros(n,545);
-OE2 = zeros(n,545);
-OE = zeros(n*2,545);
-ON1 = zeros(1,545);
-ON = zeros(n*7,545);
+OE1 = zeros(n,288);
+OE2 = zeros(n,288);
+OE = zeros(n*2,288);
+ON1 = zeros(1,288);
+ON = zeros(n*7,288);
 
 
 for i = 1:n
@@ -24,4 +24,5 @@ end
 
 L_eye = repmat('y', length(OE), 1); 
 L_neye = repmat('n', length(ON), 1);
-cpredictor = TreeBagger(600, [OE; ON], [L_eye; L_neye]);
+%cpredictor = TreeBagger(600, [OE; ON], [L_eye; L_neye]);
+vpredictor = fitcsvm([OE; ON], [L_eye; L_neye]);

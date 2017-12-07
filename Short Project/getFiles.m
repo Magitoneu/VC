@@ -1,5 +1,6 @@
 % script per llegir les imatges d'un carpeta
 
+% TODO: Duplicar imatges d'ulls (girarles) 
 pathUni = 'I:\vc\Short Project\*.pgm';
 pathCasa = '../../Images/ShortProject/';
 
