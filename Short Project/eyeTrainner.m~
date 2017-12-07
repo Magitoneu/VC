@@ -8,8 +8,9 @@ ON = zeros(n*7,545);
 
 
 for i = 1:n
-   I = uint8(squeeze(images(i,:,:)));
-   [IeyeL, IeyeR, Leye, Reye] = getEyeImgs(I,eyes(i,:));
+    
+   %Fer una funció, codi net plz
+   [IeyeL, IeyeR] = getEyeImgs(uint8(squeeze(images(i,:,:))));
    %Training eyes
    OE1 = getObs(IeyeL);
    OE2 = getObs(IeyeR);

@@ -1,0 +1,26 @@
+
+%n = randi([1 1000]);
+I = uint8(squeeze(images(31,:,:)));
+imshow(I);
+hold on;
+[rows, cols] = size(I);
+k = 0;
+%plot(250,250,'r*');
+for i = 10:10:220
+   for j = 80:10:270
+        Im = imcrop(I, [j-20 i-15 39 29]);
+        O = getObs(Im);
+        [L, scores] = predictor.predict(O);
+        L = cell2mat(L);
+        if L == 'y'
+            plot(j,i,'r*');
+        else
+            plot(j,i,'b*');
+        end
+   end 
+
+end
+
+
+hold off;
+
