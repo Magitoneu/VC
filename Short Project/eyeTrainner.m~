@@ -4,18 +4,19 @@
 
 %TODO: Reformar treebagger
 
-%Mode
+%Check valid Mode
+if(Mode > 4 || Mode < 0)
+    disp('Invalid Mode');
+end
+
 switch Mode
     case 1
-        fprintf('Cascade Object Trainner \n');
+        
     case 2
-        fprintf('Decision Tree (TreeBagger) 50 trees\n');
+        
     case 3
-        fprintf('Support Vector Machine \n');
+        
     case 4
-        fprintf('Adaboost \n');
-    otherwise
-        error('Invalid mode \n');
 end
 
 n = length(trainImgs);
@@ -26,7 +27,7 @@ if(Mode ~= 1)
     OE = zeros(n*2,nobs);
     ON1 = zeros(1,nobs);
     ON = zeros(n*36,nobs);
-    negativeSamples = 17;
+    negativeSamples = 7;
 end
 k = 1;
 
@@ -52,22 +53,19 @@ for i = 1:n
 end
 
 if(Mode == 1)
-    fprintf('All negativa images created \n');
+    disp('All negativa images created');
     negativeImages = imageDatastore(dir);
 else
     L_eye = repmat('y', length(OE), 1); 
     L_neye = repmat('n', length(ON), 1);
 end
 
-fprintf('Created observations and negative samples \n');
-fprintf('Training Tree/SVM/Adaboost/CascadeDetector .... \n');
-
 if(Mode == 2) 
-    cpredictor = TreeBagger(50, [OE; ON], [L_eye; L_neye]);
+    cpredictor = TreeBagger(600, [OE; ON], [L_eye; L_neye]);
 elseif(Mode == 3) 
     vpredictor = fitcsvm([OE; ON], [L_eye; L_neye]);
 elseif(Mode == 1) 
-    disp('Trainning Cascade Detector \n');
+    disp('Trainning Cascade Detector');
     trainCascadeObjectDetector('eyeDetectorHOG.xml',positiveInstancesTrainning(:,1:2),negativeImages,'FeatureType','HOG','ObjectTrainingSize', [30 40],'NegativeSamplesFactor',2,'NumCascadeStages',6,'FalseAlarmRate',0.0150, 'TruePositiveRate', 0.9985);
 else
     [classestimate, model] = adaboost('train',[OE;ON], [L_eye; L_neye], 100);

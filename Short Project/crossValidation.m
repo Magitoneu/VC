@@ -1,7 +1,8 @@
 %%Cross-Validation
 
-%Chose training mode 1(CascadeDetector) 2(TreeBagger) 3(Support Vector Machine)
-Mode = 4;
+%Chose training mode 1(CascadeDetector) 2(TreeBagger) 3(Support Vector
+%Machine) 4(Adaboost with HOG & Hist)
+Mode = 3;
 
 
 disp('Getting Files...')
@@ -41,11 +42,13 @@ for i = 1:CVO.NumTestSets
         AB(2:2:end,:) = trIdx;
         positiveInstancesTrainning = positiveInstances(logical(AB), :);
     end
-    disp('Starting train fase...');
+    fprintf('Starting training fase... \n');
     eyeTrainner; %Agafant training
-    disp('Starting prediction fase...');
+    fprintf('Starting prediction fase... \n');
     eyePredict; %Agafant testing
-    disp('Cross Validation Fase Finished');
-    confusionMatrix
+    fprintf('Cross Validation Fase Finished, Confusion Matrix: ');
+    confusionMatrixs(:,:,i) = confusionMatrix;
 end
+confusionMatrix = sum(confusionMatrixs(:,:,:),3);
+
 %cvErr = sum(error)/sum(CVO.TestSize);
