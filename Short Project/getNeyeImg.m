@@ -1,14 +1,24 @@
-function [ Iout ] = getNeyeImg( Iin, Leye, Reye )
+function [ Iout ] = getNeyeImg( Iin, Leye, Reye, Mode )
 
 [rows, cols] = size(Iin);
 superpos = true;
 
-while superpos
-    x = randi([16 rows-16], 1);
-    y = randi([21 cols-21], 1);
-    superpos = superposed(x-15,y-20, Leye) & superposed(x-15,y-20, Reye); 
+if Mode == 1
+    while superpos
+        x = randi([1 rows-90], 1);
+        y = randi([1 cols-120], 1);
+        %superpos = superposed(x,y, Leye) & superposed(x,y, Reye); 
+        superpos = (0 ~= rectint([y x 119 89],Leye)) || (0 ~= rectint([y x 119 89],Reye));
+    end
+    Iout = imcrop(Iin, [y x 119 89]);
+else
+   while superpos
+        x = randi([1 rows-29], 1);
+        y = randi([1 cols-39], 1);
+        %superpos = superposed(x,y, Leye) & superposed(x,y, Reye); 
+        superpos = (0 ~= rectint([y x 39 29],Leye)) || (0 ~= rectint([y x 39 29],Reye));
+   end 
+   Iout = imcrop(Iin, [y x 39 29]);
 end
-
-Iout = imcrop(Iin, [y-20 x-15 39 29]);
 end
 

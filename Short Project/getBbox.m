@@ -1,4 +1,4 @@
-function [ Il, Ir, Leye, Reye ] = getEyeImgs( I, pos)
+function [Leye, Reye ] = getBbox(pos)
 
 D = pdist([pos(1), pos(2); pos(3), pos(4)],'euclidean');
 Leye = [pos(1) - 0.65*D/2, pos(2) - 0.45*D/2 , 0.65*D, 0.45*D];
@@ -15,9 +15,4 @@ end
 if(Reye(2) < 1)
     Reye(2) = 1;  
 end
-Il = imresize(imcrop(I,Leye), [30 40]);
-Ir = imresize(imcrop(I,Reye), [30 40]);
-
-
 end
-
