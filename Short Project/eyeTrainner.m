@@ -5,7 +5,7 @@
 %TODO: Reformar treebagger
 
 %Check valid Mode
-if(Mode > 3 || Mode < 0)
+if(Mode > 4 || Mode < 0)
     disp('Invalid Mode');
 end
 
@@ -52,10 +52,9 @@ if(Mode == 2)
     cpredictor = TreeBagger(600, [OE; ON], [L_eye; L_neye]);
 elseif(Mode == 3) 
     vpredictor = fitcsvm([OE; ON], [L_eye; L_neye]);
-else 
+elseif(Mode == 1) 
     disp('Trainning Cascade Detector');
     trainCascadeObjectDetector('eyeDetectorHOG.xml',positiveInstancesTrainning(:,1:2),negativeImages,'FeatureType','HOG','ObjectTrainingSize', [30 40],'NegativeSamplesFactor',2,'NumCascadeStages',6,'FalseAlarmRate',0.0150, 'TruePositiveRate', 0.9985);
+else
+    [classestimate, model] = adaboost('train',[OE;ON], [L_eye; L_neye], 100);
 end
-%[classestimate, model] = adaboost('train',[OE;ON], [L_eye; L_neye], 100);
-
-% HOG ESTA A LBP

@@ -1,7 +1,7 @@
 error = zeros(CVO.NumTestSets,1);
 
 lenTest = size(testImgs,1);
-
+confusionMatrix = zeros(2);
 if(Mode ~= 1)
     for r = 1:1:lenTest
         I = uint8(squeeze(testImgs(r,:,:)));
@@ -13,10 +13,11 @@ if(Mode ~= 1)
                 O = getObs(Im);
                 if(Mode == 2)
                     [L, scores] = cpredictor.predict(O); %TreeBagger
-                else
+                elseif(Mode == 3)
                     [L, scores] = predict(vpredictor,O); %SVM
+                else
+                    L = adaboost('apply',O,model);
                 end
-                %L = adaboost('apply',O,model);
                 %L = cell2mat(L);
                 if L == 1
                     points(k,1) = i;
@@ -32,7 +33,6 @@ if(Mode ~= 1)
         %plot(points(:,2), points(:,1), 'r*');
     end
 else
-    confusionMatrix = zeros(2);
     detector = vision.CascadeObjectDetector('eyeDetectorHOG.xml');
     for r = 1:1:lenTest
         img = uint8(squeeze(testImgs(r,:,:)));
@@ -50,5 +50,5 @@ else
         %detectedImg = insertObjectAnnotation(img, 'rectangle', bbox, 'eye');
         %imshow(detectedImg)
     end    
-    confusionMatrix(1,2) = size(testEyes,1) * 2) - confusionMatrix(1,1);
+    confusionMatrix(1,2) = size(testEyes,1) * 2 - confusionMatrix(1,1);
 end

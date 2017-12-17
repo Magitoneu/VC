@@ -1,7 +1,7 @@
 %%Cross-Validation
 
 %Chose training mode 1(CascadeDetector) 2(TreeBagger) 3(Support Vector Machine)
-Mode = 1;
+Mode = 4;
 
 
 disp('Getting Files...')
