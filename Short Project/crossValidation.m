@@ -1,8 +1,9 @@
 %%Cross-Validation
-
+clear all;
+clc
 %Chose training mode 1(CascadeDetector) 2(TreeBagger) 3(Support Vector
 %Machine) 4(Adaboost with HOG & Hist)
-Mode = 3;
+Mode = 2;
 
 
 disp('Getting Files...')
@@ -10,7 +11,7 @@ getFiles;
 CVO = cvpartition(3042, 'k', 10);
 nameBase = '../../Images/NegativeImages';
 disp('Cross Validation Starting with 10 folds');
-for i = 1:CVO.NumTestSets
+for cvo_i = 1:CVO.NumTestSets
     if(Mode == 1)
         try 
             rmdir('../../Images/NegativeImages/', 's');
@@ -28,10 +29,10 @@ for i = 1:CVO.NumTestSets
             disp('No Detector to remove');
         end
     end
-    dir = strcat(nameBase, int2str(i), '/');
+    dir = strcat(nameBase, int2str(cvo_i), '/');
     mkdir(dir);
-    trIdx = CVO.training(i);
-    teIdx = CVO.test(i);
+    trIdx = CVO.training(cvo_i);
+    teIdx = CVO.test(cvo_i);
     trainImgs = images(trIdx, :, :);
     testImgs = images(teIdx, : , :);
     trainEyes = eyes(trIdx, :);
@@ -47,8 +48,8 @@ for i = 1:CVO.NumTestSets
     fprintf('Starting prediction fase... \n');
     eyePredict; %Agafant testing
     fprintf('Cross Validation Fase Finished, Confusion Matrix: ');
-    confusionMatrixs(:,:,i) = confusionMatrix;
+    confusionMatrixs(:,:,cvo_i) = confusionMatrix
 end
-confusionMatrix = sum(confusionMatrixs(:,:,:),3);
+confusionMatrix = sum(confusionMatrixs(:,:,:),3)/CVO.NumTestSets;
 
 %cvErr = sum(error)/sum(CVO.TestSize);

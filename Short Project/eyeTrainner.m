@@ -1,7 +1,6 @@
 %%Cal crear les imatges de no ulls cada cop que es fa trainning per no
 %%influir en els resultats de error.
 
-
 %TODO: Reformar treebagger
 
 %Mode
@@ -18,15 +17,15 @@ switch Mode
         error('Invalid mode \n');
 end
 
-n = length(trainImgs);
+n = size(trainImgs,1);
 negativeSamples = 160;
 
 if(Mode ~= 1)
     nobs = 544;
     OE = zeros(n*2,nobs);
     ON1 = zeros(1,nobs);
-    ON = zeros(n*36,nobs);
-    negativeSamples = 17;
+    ON = zeros(n*negativeSamples,nobs);
+    negativeSamples = 7;
 end
 k = 1;
 
@@ -55,8 +54,8 @@ if(Mode == 1)
     fprintf('All negativa images created \n');
     negativeImages = imageDatastore(dir);
 else
-    L_eye = repmat('y', length(OE), 1); 
-    L_neye = repmat('n', length(ON), 1);
+    L_eye = repmat(1, size(OE,1), 1); 
+    L_neye = repmat(-1, size(ON,1), 1);
 end
 
 fprintf('Created observations and negative samples \n');
@@ -65,6 +64,7 @@ fprintf('Training Tree/SVM/Adaboost/CascadeDetector .... \n');
 if(Mode == 2) 
     cpredictor = TreeBagger(50, [OE; ON], [L_eye; L_neye]);
 elseif(Mode == 3) 
+    disp('aka');
     vpredictor = fitcsvm([OE; ON], [L_eye; L_neye]);
 elseif(Mode == 1) 
     disp('Trainning Cascade Detector \n');

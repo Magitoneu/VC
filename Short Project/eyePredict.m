@@ -23,7 +23,7 @@ if(Mode ~= 1)
                 if(Mode == 2) 
                     L = cell2mat(L);
                 end
-                if L == 1 || L == 'y'
+                if L == 1
                     points(k,1) = i;
                     points(k,2) = j;
                     points(k,3) = 0;
@@ -32,13 +32,13 @@ if(Mode ~= 1)
                     if(accurate([j-20 i-15 39 29], Leye, Reye))
                         confusionMatrix(1,1) = confusionMatrix(1,1) + 1;
                     else
-                        confusionMatrix(2,1) = confusionMatrix(1,2) + 1;
+                        confusionMatrix(1,2) = confusionMatrix(1,2) + 1;
                     end
                 else
                     if(accurate([j-20 i-15 39 29], Leye, Reye))
-                        confusionMatrix(1,1) = confusionMatrix(2,1) + 1;
+                        confusionMatrix(2,1) = confusionMatrix(2,1) + 1;
                     else
-                        confusionMatrix(2,1) = confusionMatrix(2,2) + 1;
+                        confusionMatrix(2,2) = confusionMatrix(2,2) + 1;
                     end
                 end
            end 
@@ -47,7 +47,7 @@ if(Mode ~= 1)
             points = removeNoPairs(points);
             I = insertMarker(I,[points(:,2) points(:,1)]);
         end
-        imshow(I);
+        %imshow(I);
         %plot(points(:,2), points(:,1), 'r*');
     end
 else
@@ -61,11 +61,12 @@ else
             if(accurate(bbox(k,:), Leye, Reye))
                 confusionMatrix(1,1) = confusionMatrix(1,1) + 1;
             else
-                confusionMatrix(2,1) = confusionMatrix(1,2) + 1;
+                confusionMatrix(1,2) = confusionMatrix(1,2) + 1;
             end
         end
         %detectedImg = insertObjectAnnotation(img, 'rectangle', bbox, 'eye');
-        %imshow(detectedImg)
-    end    
-    confusionMatrix(1,2) = size(testEyes,1) * 2 - confusionMatrix(1,1);
+        confusionMatrix(2,1) = size(testEyes,1) * 2 - confusionMatrix(1,1);
+        confusionMatrix(2,2) = size(img,1) * size(img,2) - size(bbox,1);
+         %imshow(detectedImg)
+    end        
 end
