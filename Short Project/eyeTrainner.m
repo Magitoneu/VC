@@ -8,7 +8,7 @@ switch Mode
     case 1
         fprintf('Cascade Object Trainner \n');
     case 2
-        fprintf('Decision Tree (TreeBagger) 50 trees\n');
+        fprintf('Decision Tree (TreeBagger) 75 trees\n');
     case 3
         fprintf('Support Vector Machine \n');
     case 4
@@ -21,11 +21,11 @@ n = size(trainImgs,1);
 negativeSamples = 160;
 
 if(Mode ~= 1)
-    nobs = 544;
+    nobs = 288;
     OE = zeros(n*2,nobs);
     ON1 = zeros(1,nobs);
     ON = zeros(n*negativeSamples,nobs);
-    negativeSamples = 7;
+    negativeSamples = 35;
 end
 k = 1;
 
@@ -62,9 +62,8 @@ fprintf('Created observations and negative samples \n');
 fprintf('Training Tree/SVM/Adaboost/CascadeDetector .... \n');
 
 if(Mode == 2) 
-    cpredictor = TreeBagger(50, [OE; ON], [L_eye; L_neye]);
+    cpredictor = TreeBagger(100, [OE; ON], [L_eye; L_neye]);
 elseif(Mode == 3) 
-    disp('aka');
     vpredictor = fitcsvm([OE; ON], [L_eye; L_neye]);
 elseif(Mode == 1) 
     disp('Trainning Cascade Detector \n');

@@ -1,9 +1,10 @@
 function [ O ] = getObs( I )
 
 [rows,cols] = size(I);
-Hist = imhist(I);
-Sumes = sum(I(:))/(rows * cols);
+Hist =  imhist(I);
+Hist = Hist/sum(Hist);
+Hist(Hist(:) < 0.0017) = 0;
 features = extractHOGFeatures(I);
-O = [Hist' double(features)];
+O = [features];
 end
 

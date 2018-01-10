@@ -1,6 +1,6 @@
 %%Cross-Validation
-clear all;
-clc
+
+%TreeBagger Ferlo amb HOG i histogrames normalitzats
 %Chose training mode 1(CascadeDetector) 2(TreeBagger) 3(Support Vector
 %Machine) 4(Adaboost with HOG & Hist)
 Mode = 2;
@@ -11,7 +11,7 @@ getFiles;
 CVO = cvpartition(3042, 'k', 10);
 nameBase = '../../Images/NegativeImages';
 disp('Cross Validation Starting with 10 folds');
-for cvo_i = 1:CVO.NumTestSets
+for cvo_i = 1:1
     if(Mode == 1)
         try 
             rmdir('../../Images/NegativeImages/', 's');
