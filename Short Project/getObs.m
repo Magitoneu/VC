@@ -5,6 +5,6 @@ Hist =  imhist(I);
 Hist = Hist/sum(Hist);
 Hist(Hist(:) < 0.0017) = 0;
 features = extractHOGFeatures(I);
-O = [features];
+O = [features Hist'];
 end
 

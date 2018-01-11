@@ -1,5 +1,9 @@
 %%Cross-Validation
 
+%TODO: 
+%   -canvi de generacio de observacions negatives. (Agafar imatges més gran com CascadeDetector)
+%   -criteri de ull-noull (matrius de confusió). 
+%   -mitjana dels punts per cada ull
 %TreeBagger Ferlo amb HOG i histogrames normalitzats
 %Chose training mode 1(CascadeDetector) 2(TreeBagger) 3(Support Vector
 %Machine) 4(Adaboost with HOG & Hist)
@@ -7,11 +11,11 @@ Mode = 2;
 
 
 disp('Getting Files...')
-getFiles;
+%getFiles;
 CVO = cvpartition(3042, 'k', 10);
 nameBase = '../../Images/NegativeImages';
 disp('Cross Validation Starting with 10 folds');
-for cvo_i = 1:1
+for cvo_i = 1:lenTest
     if(Mode == 1)
         try 
             rmdir('../../Images/NegativeImages/', 's');
@@ -44,11 +48,14 @@ for cvo_i = 1:1
         positiveInstancesTrainning = positiveInstances(logical(AB), :);
     end
     fprintf('Starting training fase... \n');
-    eyeTrainner; %Agafant training
+    %eyeTrainner; %Agafant training
     fprintf('Starting prediction fase... \n');
     eyePredict; %Agafant testing
     fprintf('Cross Validation Fase Finished, Confusion Matrix: ');
-    confusionMatrixs(:,:,cvo_i) = confusionMatrix
+    confusionMatrixs(:,:,cvo_i) = confusionMatrix;
+    T = array2table(confusionMatrix, 'VariableNames', {'Ull', 'Null'});
+    T.Properties.RowNames = {'ULL', 'NULL'};
+    T
 end
 confusionMatrix = sum(confusionMatrixs(:,:,:),3)/CVO.NumTestSets;
 

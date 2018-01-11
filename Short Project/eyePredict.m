@@ -5,7 +5,6 @@ confusionMatrix = zeros(2);
 auxCnt = 0;
 if(Mode ~= 1)
     for r = 1:1:lenTest
-        
         I = uint8(squeeze(testImgs(r,:,:)));
         [rows, cols] = size(I);
         k = 1;
@@ -19,17 +18,18 @@ if(Mode ~= 1)
              L = adaboost('apply',O,model);
         end
         points = [points zeros(size(points,1),1)];
-        points(:,1) = points(:,1) + 15;
-        points(:,2) = points(:,2) + 20;
+        points(:,1) = points(:,1) + 15; %+15
+        points(:,2) = points(:,2) + 20; %+20
         GetR = false; GetL = false;
         if(size(points,1) ~= 0)
             points = removeNoPairs(points);
-            I = insertMarker(I,[points(:,2) points(:,1)]);
             [Leye, Reye] = getBbox(testEyes(r,:));
             for cnt=1:size(points,1)
                 [acc, eye] = inside(points(cnt,:), Leye, Reye);
+                size(points)
                 if(acc)
                     confusionMatrix(1,1) = confusionMatrix(1,1) + 1;
+                    I = insertMarker(I,[points(cnt,2) points(cnt,1)], 'color', 'green');
                     if(eye == 'R')
                         GetR = true;
                     elseif(eye == 'L')
@@ -37,6 +37,9 @@ if(Mode ~= 1)
                     end
                 else
                     confusionMatrix(1,2) = confusionMatrix(1,2) + 1;
+                    I = insertMarker(I,[points(cnt,2) points(cnt,1)], 'color', 'red');
+                    %imshow(I);
+                    disp('Point not insice EyeBB');
                 end
             end
         end   
@@ -48,6 +51,9 @@ if(Mode ~= 1)
         else
             confusionMatrix(2,1) = confusionMatrix(2,1);
         end
+        T = array2table(confusionMatrix, 'VariableNames', {'Ull', 'Null'});
+        T.Properties.RowNames = {'ULL', 'NULL'};
+        T
         imshow(I);
     end
 else
