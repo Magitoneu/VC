@@ -14,16 +14,15 @@
 %Machine) 4(Adaboost with HOG & Hist)
 Mode = 2;
 
-
 disp('Getting Files...')
 getFiles;
 CVO = cvpartition(3042, 'k', 10);
-nameBase = '../../Images/NegativeImages';
+nameBase = '../../../Images/NegativeImages';
 disp('Cross Validation Starting with 10 folds');
 for cvo_i = 1:1
     if(Mode == 1)
         try 
-            rmdir('../../Images/NegativeImages/', 's');
+            rmdir('../../../Images/NegativeImages/', 's');
         catch 
             disp('No dir to remove');
         end

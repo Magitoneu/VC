@@ -37,7 +37,6 @@ if(Mode ~= 1)
             for cnt=1:size(points,1)
                 [acc, eye] = inside(points(cnt,:), Leye, Reye);
                 if(acc)
-                    confusionMatrix(1,1) = confusionMatrix(1,1) + 1;
                     I = insertMarker(I,[points(cnt,2) points(cnt,1)], 'color', 'green');
                     if(eye == 'R')
                         GetR = true;

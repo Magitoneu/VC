@@ -2,13 +2,12 @@
 
 % TODO: Duplicar imatges d'ulls (girarles) 
 pathUni = 'I:\vc\Short Project\*.pgm';
-pathCasa = '../../Images/ShortProject/';
+pathCasa = '../../../Images/ShortProject/';
 
-imf = dir('../../Images/ShortProject/*.pgm'); % llista d'imatges amb extensio bmp
+imf = dir('../../../Images/ShortProject/*.pgm'); % llista d'imatges amb extensio bmp
 n = 1521; % nombre d'imatges en el directori
 images = zeros([n*2,286,384]); % array n imatges de mida 100 x 100
 eyes = zeros([n*2 4]);
-
 positiveInstances = table({'filename'}, [0 0 0 0],'VariableNames',{'imatge','LeftEye'});
 
 for i = 1 : n
