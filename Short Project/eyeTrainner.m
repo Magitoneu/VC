@@ -21,7 +21,7 @@ n = size(trainImgs,1);
 negativeSamples = 160;
 
 if(Mode ~= 1)
-    nobs = 288;
+    nobs = 544;
     OE = zeros(n*2,nobs);
     ON1 = zeros(1,nobs);
     ON = zeros(n*negativeSamples,nobs);
@@ -62,7 +62,11 @@ fprintf('Created observations and negative samples \n');
 fprintf('Training Tree/SVM/Adaboost/CascadeDetector .... \n');
 
 if(Mode == 2) 
+<<<<<<< HEAD
     cpredictor = TreeBagger(30, [OE; ON], [L_eye; L_neye]);
+=======
+    cpredictor = TreeBagger(130, [OE; ON], [L_eye; L_neye]);
+>>>>>>> 4a4c4994446aaad15af1ef3e6a4fc5104220df81
 elseif(Mode == 3) 
     vpredictor = fitcsvm([OE; ON], [L_eye; L_neye]);
 elseif(Mode == 1) 

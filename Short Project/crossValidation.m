@@ -4,11 +4,14 @@
 %   -canvi de generacio de observacions negatives. (Agafar imatges més gran com CascadeDetector)
 %   -criteri de ull-noull (matrius de confusió). 
 %   -mitjana dels punts per cada ull
+<<<<<<< HEAD
 %   -classificació de mirar/no mirar, HOUGH/SIFT?
 %   -treeBagger calcul de error amb diferents arbres i obs, sense
 %   cross-validation, nomes train/test 
 %   -Fscore, ROC-curve
 
+=======
+>>>>>>> 4a4c4994446aaad15af1ef3e6a4fc5104220df81
 %TreeBagger Ferlo amb HOG i histogrames normalitzats
 %Chose training mode 1(CascadeDetector) 2(TreeBagger) 3(Support Vector
 %Machine) 4(Adaboost with HOG & Hist)
@@ -20,7 +23,11 @@ disp('Getting Files...')
 CVO = cvpartition(3042, 'k', 10);
 nameBase = '../../Images/NegativeImages';
 disp('Cross Validation Starting with 10 folds');
+<<<<<<< HEAD
 for cvo_i = 1:CVO.NumTestSets
+=======
+for cvo_i = 1:lenTest
+>>>>>>> 4a4c4994446aaad15af1ef3e6a4fc5104220df81
     if(Mode == 1)
         try 
             rmdir('../../Images/NegativeImages/', 's');
@@ -54,11 +61,15 @@ for cvo_i = 1:CVO.NumTestSets
         positiveInstancesTrainning = positiveInstances(logical(AB), :);
     end
     fprintf('Starting training fase... \n');
-    eyeTrainner; %Agafant training
+    %eyeTrainner; %Agafant training
     fprintf('Starting prediction fase... \n');
     eyePredict; %Agafant testing
     fprintf('Cross Validation Fase Finished, Confusion Matrix: ');
+<<<<<<< HEAD
     confusionMatrixs(:,:,cvo_i) = confusionMatrix/lenTest;
+=======
+    confusionMatrixs(:,:,cvo_i) = confusionMatrix;
+>>>>>>> 4a4c4994446aaad15af1ef3e6a4fc5104220df81
     T = array2table(confusionMatrix, 'VariableNames', {'Ull', 'Null'});
     T.Properties.RowNames = {'ULL', 'NULL'};
     T
