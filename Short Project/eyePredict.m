@@ -36,12 +36,8 @@ if(Mode ~= 1)
             [Leye, Reye] = getBbox(testEyes(r,:));
             for cnt=1:size(points,1)
                 [acc, eye] = inside(points(cnt,:), Leye, Reye);
-                size(points)
                 if(acc)
-<<<<<<< HEAD
-=======
                     confusionMatrix(1,1) = confusionMatrix(1,1) + 1;
->>>>>>> 4a4c4994446aaad15af1ef3e6a4fc5104220df81
                     I = insertMarker(I,[points(cnt,2) points(cnt,1)], 'color', 'green');
                     if(eye == 'R')
                         GetR = true;
@@ -51,11 +47,7 @@ if(Mode ~= 1)
                 else
                     confusionMatrix(1,2) = confusionMatrix(1,2) + 1;
                     I = insertMarker(I,[points(cnt,2) points(cnt,1)], 'color', 'red');
-<<<<<<< HEAD
-=======
                     %imshow(I);
-                    disp('Point not insice EyeBB');
->>>>>>> 4a4c4994446aaad15af1ef3e6a4fc5104220df81
                 end
             end
         end   
@@ -69,17 +61,11 @@ if(Mode ~= 1)
             confusionMatrix(2,1) = confusionMatrix(2,1);
             confusionMatrix(1,1) = confusionMatrix(1,1) + 2;
         end
-<<<<<<< HEAD
+
        % T = array2table(confusionMatrix, 'VariableNames', {'Ull', 'Null'});
        % T.Properties.RowNames = {'ULL', 'NULL'};
        % T
-        %imshow(I);
-=======
-        T = array2table(confusionMatrix, 'VariableNames', {'Ull', 'Null'});
-        T.Properties.RowNames = {'ULL', 'NULL'};
-        T
-        imshow(I);
->>>>>>> 4a4c4994446aaad15af1ef3e6a4fc5104220df81
+       imshow(I);
     end
 else
     detector = vision.CascadeObjectDetector('eyeDetectorHOG.xml');

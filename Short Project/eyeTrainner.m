@@ -8,7 +8,7 @@ switch Mode
     case 1
         fprintf('Cascade Object Trainner \n');
     case 2
-        fprintf('Decision Tree (TreeBagger) 75 trees\n');
+        fprintf('Decision Tree (TreeBagger)\n');
     case 3
         fprintf('Support Vector Machine \n');
     case 4
@@ -21,7 +21,7 @@ n = size(trainImgs,1);
 negativeSamples = 160;
 
 if(Mode ~= 1)
-    nobs = 544;
+    nobs = 288;
     OE = zeros(n*2,nobs);
     ON1 = zeros(1,nobs);
     ON = zeros(n*negativeSamples,nobs);
@@ -62,15 +62,11 @@ fprintf('Created observations and negative samples \n');
 fprintf('Training Tree/SVM/Adaboost/CascadeDetector .... \n');
 
 if(Mode == 2) 
-<<<<<<< HEAD
-    cpredictor = TreeBagger(30, [OE; ON], [L_eye; L_neye]);
-=======
-    cpredictor = TreeBagger(130, [OE; ON], [L_eye; L_neye]);
->>>>>>> 4a4c4994446aaad15af1ef3e6a4fc5104220df81
+    cpredictor = TreeBagger(20, [OE; ON], [L_eye; L_neye]);
 elseif(Mode == 3) 
     vpredictor = fitcsvm([OE; ON], [L_eye; L_neye]);
 elseif(Mode == 1) 
-    disp('Trainning Cascade Detector \n');
+    fprintf('Trainning Cascade Detector \n');
     trainCascadeObjectDetector('eyeDetectorHOG.xml',positiveInstancesTrainning(:,1:2),negativeImages,'FeatureType','HOG','ObjectTrainingSize', [30 40],'NegativeSamplesFactor',2,'NumCascadeStages',6,'FalseAlarmRate',0.0150, 'TruePositiveRate', 0.9985);
 else
     [classestimate, model] = adaboost('train',[OE;ON], [L_eye; L_neye], 100);
