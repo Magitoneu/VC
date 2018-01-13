@@ -16,7 +16,7 @@ Mode = 2;
 
 
 disp('Getting Files...')
-%getFiles;
+getFiles;
 CVO = cvpartition(3042, 'k', 10);
 nameBase = '../../Images/NegativeImages';
 disp('Cross Validation Starting with 10 folds');
