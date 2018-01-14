@@ -1,4 +1,4 @@
-I = uint8(squeeze(eyesDB(1801,:,:)));
+I = uint8(squeeze(eyesDB(302,:,:)));
 I = imresize(I, 5);
 Io = histeq(I);
 
@@ -35,7 +35,7 @@ I2 = imopen(I2, strel('disk', 5));
 I2 = (I2 < 70);
 %imshow(I2);
 [centers, radii, metric] = imfindcircles(I2, [23 35], 'ObjectPolarity','bright', 'Method', 'TwoStage', 'Sensitivity', 0.90);
-imshow(I);
+%imshow(I);
 distToCenter = ones([size(centers, 1), 1]);
 
 for i = 1:min(size(centers, 1), 3)
@@ -47,7 +47,9 @@ end
 centersStrong5 = centers(posCenter,:); 
 radiiStrong5 = radii(posCenter);
 metricStrong5 = metric(posCenter);
-
+I_eye = imgaussfilt(I, 2.5);
+I_BW = edge(I_eye,'Canny', 0.15,0.1);
+imshow(I);
 st = props(idx);
 
 rectangle('Position',[st.BoundingBox(1),st.BoundingBox(2),st.BoundingBox(3),st.BoundingBox(4)],...

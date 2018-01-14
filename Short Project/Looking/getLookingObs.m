@@ -57,7 +57,7 @@ else
     lowerLeft = [st.BoundingBox(1)+st.BoundingBox(4) st.BoundingBox(2)];
     lowerRight = [st.BoundingBox(1)+st.BoundingBox(4) st.BoundingBox(2)+st.BoundingBox(3)];
 
-    obs = [distanciaIrisCentroid centerIris(1)-st.Centroid(1) centerIris(2)-st.Centroid(2)];
+    obs = [abs(centerIris(2)-st.Centroid(2)) abs(centerIris(1)-st.Centroid(1)) distanciaIrisCentroid];
 end
         
 end

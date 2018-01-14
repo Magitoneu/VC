@@ -1,14 +1,12 @@
-clear NE LE L_LE L_NE pred trainDB testDB trainLabels testLabels
+clear NE LE L_LE L_NE pred trainDB testDB
 n = size(eyesDB,1);
 p = 0.7;
 trIdx = false(n,1);    
 trIdx(1:round(p*n)) = true;     
 trIdx = trIdx(randperm(n));   % randomise order
-trainDB = eyesDB(trIdx,:,:);
+trainDB = eyesDB(trIdx,:,:); 
 testDB = eyesDB(~trIdx,:,:); 
 
-trainLabels = classifiedEyes(trIdx);
-testLabels = classifiedEyes(~trIdx);
 
 %LE (looking eye observations)
 %NE (not looking eye observations)
@@ -25,7 +23,7 @@ y = 1;
 
 for i=1:size(trainDB,1)
     I = uint8(squeeze(trainDB(i,:,:)));
-    if(trainLabels(i) == 0)
+    if(classifiedEyes(i) == 0)
         NE(x,:) = getLookingObs(I); 
         x = x+1;
     else
@@ -38,7 +36,8 @@ end
 L_LE = repmat(1, size(LE,1), 1); 
 L_NE = repmat(0, size(NE,1), 1);
 
-cpredictor = TreeBagger(50, [LE; NE], [L_LE; L_NE]);
+%cpredictor = TreeBagger(50, [LE; NE], [L_LE; L_NE]);
+cpredictor = fitglm([LE; NE], [L_LE; L_NE]);
 error = 0;
 good = 0;
 confusionMatrix = zeros(2);
@@ -47,19 +46,17 @@ for i=1:size(testDB,1)
     if (size(obs, 1) > size(obs, 2))
         obs = transpose(obs);
     end
-    
-    [pred, scores] = cpredictor.predict(obs);
-    pred = (scores > 0.5);
-    if(pred ~= testLabels(i))
+    pred(i) = (cpredictor.predict(obs) > 0.6);
+    if(pred(i) ~= classifiedEyes(i))
         error = error + 1;
-        if(pred == 1)
+        if(pred(i) == 1)
             confusionMatrix(1,2) = confusionMatrix(1,2) + 1; 
         else
             confusionMatrix(2,1) = confusionMatrix(2,1) + 1;
         end
     else
         good = good + 1;
-        if(testLabels(i) == 1)
+        if(classifiedEyes(i) == 1)
             confusionMatrix(1,1) = confusionMatrix(1,1) + 1; 
         else
             confusionMatrix(2,2) = confusionMatrix(2,2) + 1;
