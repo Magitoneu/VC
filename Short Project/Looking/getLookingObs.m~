@@ -40,7 +40,7 @@ distToCenter = ones([size(centers, 1), 1]);
 % més al centre de la regió connexa que ens defineix la BB de l'ull.
 
 if (size(centers, 1) == 0)
-    obs = [500];
+    obs = [500 500 500];
 else
     for i = 1:min(size(centers, 1), 3)
         distToCenter(i) = getDistance(centers(i, :), st.Centroid);
@@ -57,7 +57,9 @@ else
     lowerLeft = [st.BoundingBox(1)+st.BoundingBox(4) st.BoundingBox(2)];
     lowerRight = [st.BoundingBox(1)+st.BoundingBox(4) st.BoundingBox(2)+st.BoundingBox(3)];
 
-    obs = [distanciaIrisCentroid];
+    obs = [abs(centerIris(2)-st.Centroid(2)) abs(centerIris(1)-st.Centroid(1)) distanciaIrisCentroid ...
+        getDistance(centerIris, upperLeft) getDistance(centerIris, upperRight) ...
+        getDistance(centerIris, lowerLeft) getDistance(centerIris, lowerRight)];
 end
         
 end

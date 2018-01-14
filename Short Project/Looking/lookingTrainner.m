@@ -26,10 +26,10 @@ y = 1;
 for i=1:size(trainDB,1)
     I = uint8(squeeze(trainDB(i,:,:)));
     if(trainLabels(i) == 0)
-        NE(x,:) = getLookingObs2(I); 
+        NE(x,:) = getLookingObs3(I);
         x = x+1;
     else
-        LE(y,:) = getLookingObs2(I);
+        LE(y,:) = getLookingObs3(I);
         y = y+1;
     end
 end
@@ -43,13 +43,14 @@ error = 0;
 good = 0;
 confusionMatrix = zeros(2);
 for i=1:size(testDB,1)
-    obs = getLookingObs2(uint8(squeeze(testDB(i,:,:))));
+    I = (uint8(squeeze(testDB(i,:,:))));
+    obs = getLookingObs3(I);
     if (size(obs, 1) > size(obs, 2))
         obs = transpose(obs);
     end
     
     [pred, scores] = cpredictor.predict(obs);
-    pred = (scores > 0.5);
+    pred = str2num(cell2mat(pred));
     if(pred ~= testLabels(i))
         error = error + 1;
         if(pred == 1)
@@ -67,7 +68,7 @@ for i=1:size(testDB,1)
     end
 end
 (good/(good + error)) * 100
-confusionMatrix  
+confusionMatrix
     
     
     
