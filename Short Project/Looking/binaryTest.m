@@ -35,7 +35,7 @@ I2 = imopen(I2, strel('disk', 5));
 I2 = (I2 < 70);
 %imshow(I2);
 [centers, radii, metric] = imfindcircles(I2, [23 35], 'ObjectPolarity','bright', 'Method', 'TwoStage', 'Sensitivity', 0.90);
-imshow(I2);
+imshow(I);
 distToCenter = ones([size(centers, 1), 1]);
 
 for i = 1:min(size(centers, 1), 3)
