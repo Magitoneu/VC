@@ -62,8 +62,8 @@ I2 = (I2 < 70);
 distToCenter = ones([size(centers, 1), 1]);
 
 if (size(centers, 1) == 0)
-    %obs = [500 500 500 500 500 500 500]; 
-     obs = 100000;
+    obs = [500 500 500 500 500 500 500]; 
+    %obs = 100000;
 end
 
 InsideReal = imcrop(Ir, [st.BoundingBox(1),st.BoundingBox(2),st.BoundingBox(3),st.BoundingBox(4)]);
@@ -83,7 +83,7 @@ if(size(propsInside,1) > 1)
     c2 = [centres(pos2*2-1)+st.BoundingBox(1) centres(pos2*2)+st.BoundingBox(2)];
     obs = sum(areas);
     %obs = [getDistance(c1, bestCentroid), getDistance(c2, bestCentroid), getDistance(c1,c2)];
-    %obs = [sum(areas) c1 c2 getDistance(c1, bestCentroid) getDistance(c2, bestCentroid)];
+    obs = [sum(areas) c1 c2 getDistance(c1, bestCentroid) getDistance(c2, bestCentroid)];
 elseif (size(propsInside,1) > 0)
     areas = extractfield(propsInside, 'Area');
     centres = extractfield(propsInside, 'Centroid');
@@ -92,11 +92,10 @@ elseif (size(propsInside,1) > 0)
     areas(pos1) = 0;
 
     c1 = [centres(pos1*2-1)+st.BoundingBox(1) centres(pos1*2)+st.BoundingBox(2)];
-    %obs = [sum(areas) c1  c1 getDistance(c1, bestCentroid) getDistance(c1, bestCentroid)];
-    obs = sum(areas);
+    obs = [sum(areas) c1  c1 getDistance(c1, bestCentroid) getDistance(c1, bestCentroid)];
 else
-    %obs = [500 500 500 500 500 500 500];
-    obs = 100000;
+    obs = [500 500 500 500 500 500 500];
+    
 end
 
 end
