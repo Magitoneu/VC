@@ -1,4 +1,4 @@
-clear NE LE
+clear NE LE L_LE L_NE
 n = size(eyesDB,1);
 p = 0.7;
 trIdx = false(n,1);    

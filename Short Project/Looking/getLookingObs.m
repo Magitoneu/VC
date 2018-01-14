@@ -10,7 +10,7 @@ Hist =  imhist(Ilp);
 Hist = Hist/trapz(1:256,Hist);
 Hist(Hist(:) < 0.0015) = 0;
 hog = extractHOGFeatures(Ilp);
-obs = [Hist];
+obs = [hog];
 
 end
 
