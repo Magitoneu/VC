@@ -1,4 +1,4 @@
-clear NE LE L_LE L_NE
+clear NE LE L_LE L_NE pred trainDB testDB
 n = size(eyesDB,1);
 p = 0.7;
 trIdx = false(n,1);    
@@ -18,15 +18,20 @@ testDB = eyesDB(~trIdx,:,:);
 %NE = zeros(length(classifiedEyes(:) == 0), nobs)
 %Quan fixem el numero d'observacions ho decomentem
 
+x = 1;
+y = 1;
 
 for i=1:size(trainDB,1)
     I = uint8(squeeze(trainDB(i,:,:)));
     if(classifiedEyes(i) == 0)
-        NE(i,:) = getLookingObs(I); 
+        NE(x,:) = getLookingObs(I); 
+        x = x+1;
     else
-        LE(i,:) = getLookingObs(I);
+        LE(y,:) = getLookingObs(I);
+        y = y+1;
     end
 end
+
 
 L_LE = repmat(1, size(LE,1), 1); 
 L_NE = repmat(0, size(NE,1), 1);
@@ -37,7 +42,11 @@ error = 0;
 good = 0;
 confusionMatrix = zeros(2);
 for i=1:size(testDB,1)
-    pred(i) = cpredictor.predict(getLookingObs(uint8(squeeze(testDB(i,:,:)))));
+    obs = getLookingObs(uint8(squeeze(testDB(i,:,:))));
+    if (size(obs, 1) > size(obs, 2))
+        obs = transpose(obs);
+    end
+    pred(i) = cpredictor.predict(obs);
     if(str2num(cell2mat(pred(i))) ~= classifiedEyes(i))
         error = error + 1;
         if(str2num(cell2mat(pred(i))) == 1)
