@@ -54,6 +54,7 @@ for i=1:size(testDB,1)
         end
     end
 end
+(good/(good + error)) * 100
 confusionMatrix  
     
     

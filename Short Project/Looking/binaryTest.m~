@@ -1,3 +1,4 @@
+
 I = uint8(squeeze(eyesDB(5,:,:)));
 figure, imshow(I);
 I = histeq(I);
