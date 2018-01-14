@@ -1,21 +1,16 @@
 %%Cross-Validation
 
 %TODO: 
-%   -canvi de generacio de observacions negatives. (Agafar imatges més gran com CascadeDetector)
-%   -criteri de ull-noull (matrius de confusió). 
 %   -mitjana dels punts per cada ull
 %   -classificació de mirar/no mirar, HOUGH/SIFT?
-%   -treeBagger calcul de error amb diferents arbres i obs, sense
-%   cross-validation, nomes train/test 
 %   -Fscore, ROC-curve
 
-%TreeBagger Ferlo amb HOG i histogrames normalitzats
 %Chose training mode 1(CascadeDetector) 2(TreeBagger) 3(Support Vector
 %Machine) 4(Adaboost with HOG & Hist)
 Mode = 2;
-
+rng('shuffle')
 disp('Getting Files...')
-getFiles;
+%getFiles;
 CVO = cvpartition(3042, 'k', 10);
 nameBase = '../../../Images/NegativeImages';
 disp('Cross Validation Starting with 10 folds');

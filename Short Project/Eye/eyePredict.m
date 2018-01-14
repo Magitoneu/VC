@@ -64,7 +64,7 @@ if(Mode ~= 1)
        % T = array2table(confusionMatrix, 'VariableNames', {'Ull', 'Null'});
        % T.Properties.RowNames = {'ULL', 'NULL'};
        % T
-       imshow(I);
+        %imshow(I);
     end
 else
     detector = vision.CascadeObjectDetector('eyeDetectorHOG.xml');

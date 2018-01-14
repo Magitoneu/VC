@@ -26,10 +26,10 @@ y = 1;
 for i=1:size(trainDB,1)
     I = uint8(squeeze(trainDB(i,:,:)));
     if(trainLabels(i) == 0)
-        NE(x,:) = getLookingObs(I); 
+        NE(x,:) = getLookingObs2(I); 
         x = x+1;
     else
-        LE(y,:) = getLookingObs(I);
+        LE(y,:) = getLookingObs2(I);
         y = y+1;
     end
 end
@@ -43,7 +43,7 @@ error = 0;
 good = 0;
 confusionMatrix = zeros(2);
 for i=1:size(testDB,1)
-    obs = getLookingObs(uint8(squeeze(testDB(i,:,:))));
+    obs = getLookingObs2(uint8(squeeze(testDB(i,:,:))));
     if (size(obs, 1) > size(obs, 2))
         obs = transpose(obs);
     end
