@@ -8,6 +8,7 @@
 %Chose training mode 1(CascadeDetector) 2(TreeBagger) 3(Support Vector
 %Machine) 4(Adaboost with HOG & Hist)
 Mode = 2;
+multiFase = 0;
 rng('shuffle')
 disp('Getting Files...')
 %getFiles;
@@ -38,7 +39,7 @@ for cvo_i = 1:1
     teIdx = CVO.test(cvo_i);
     trainImgs = images(trIdx, :, :);
     testImgs = images(teIdx, : , :);
-    trainEyes = eyes(trIdx, :);
+    trainEyesLab = eyes(trIdx, :);
     testEyes = eyes(teIdx, :);
     lenTest = size(testImgs,1);
     if(Mode == 1)
@@ -62,4 +63,5 @@ confusionMatrix = sum(confusionMatrixs(:,:,:),3)/CVO.NumTestSets;
 T = array2table(confusionMatrix, 'VariableNames', {'Ull', 'Null'});
 T.Properties.RowNames = {'ULL', 'NULL'};
 T
+
 %cvErr = sum(error)/sum(CVO.TestSize);

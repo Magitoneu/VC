@@ -1,19 +1,26 @@
 error = zeros(CVO.NumTestSets,1);
-
 lenTest = size(testImgs,1);
 confusionMatrix = zeros(2);
 auxCnt = 0;
+rc_k = 1;
 if(Mode ~= 1)
     for r = 1:1:lenTest
         I = uint8(squeeze(testImgs(r,:,:)));
+        [Leye, Reye] = getBbox(testEyes(r,:));
         [rows, cols] = size(I);
         k = 1;
         [O, points] = getObsImg(I);
         if(Mode == 2)
-            [L, scores] = cpredictor.predict(O);
+            [L, scores] = predictorEye.predict(O);
             pscored = cellfun(@str2num,L) == 1;
             if(max(pscored)== 0)
-               pscored = scores(:,2) > 0.47;
+               pscored = scores(:,2) > 0.45;
+               if(max(pscored) == 0)
+                   psocored = scores(:,2) > 0.40;
+                   if(max(pscored) == 0)
+                     psocored = scores(:,2) > 0.34;
+                   end
+               end
             end
             points = points(pscored, 1:2); %TreeBagger
         elseif(Mode == 3)
@@ -33,19 +40,41 @@ if(Mode ~= 1)
         GetR = false; GetL = false;
         if(size(points,1) ~= 0)
             points = removeNoPairs(points);
-            [Leye, Reye] = getBbox(testEyes(r,:));
+            if(size(points,1) ~= 0)
+                [p1 p2] = kClustering(points);
+            else
+                p1  = [0 0]; p2 = [0 0];
+            end
+            pps = [p1; p2];
+            if(p1 ~= [0 0])
+                for cnt=1:2
+                    [acc, eye] = inside(pps(cnt,:), Leye, Reye);
+                    if(acc)
+                        I = insertMarker(I,[pps(cnt,2) pps(cnt,1)], 'color', 'green');
+                        if(eye == 'R')
+                            GetR = true;
+                        elseif(eye == 'L')
+                            GetL = true;
+                        end
+                    else
+                        confusionMatrix(1,2) = confusionMatrix(1,2) + 1;
+                        I = insertMarker(I,[pps(cnt,2) pps(cnt,1)], 'color', 'red');
+                        %imshow(I);
+                    end
+                end
+            end
             for cnt=1:size(points,1)
                 [acc, eye] = inside(points(cnt,:), Leye, Reye);
                 if(acc)
-                    I = insertMarker(I,[points(cnt,2) points(cnt,1)], 'color', 'green');
-                    if(eye == 'R')
-                        GetR = true;
-                    elseif(eye == 'L')
-                        GetL = true;
-                    end
+                    I = insertMarker(I,[points(cnt,2) points(cnt,1)], 'color', 'blue');
+%                     if(eye == 'R')
+%                         GetR = true;
+%                     elseif(eye == 'L')
+%                         GetL = true;
+%                     end
                 else
-                    confusionMatrix(1,2) = confusionMatrix(1,2) + 1;
-                    I = insertMarker(I,[points(cnt,2) points(cnt,1)], 'color', 'red');
+                   % confusionMatrix(1,2) = confusionMatrix(1,2) + 1;
+                    I = insertMarker(I,[points(cnt,2) points(cnt,1)], 'color', 'blue');
                     %imshow(I);
                 end
             end
@@ -60,11 +89,10 @@ if(Mode ~= 1)
             confusionMatrix(2,1) = confusionMatrix(2,1);
             confusionMatrix(1,1) = confusionMatrix(1,1) + 2;
         end
-
        % T = array2table(confusionMatrix, 'VariableNames', {'Ull', 'Null'});
        % T.Properties.RowNames = {'ULL', 'NULL'};
        % T
-        %imshow(I);
+       imshow(I);
     end
 else
     detector = vision.CascadeObjectDetector('eyeDetectorHOG.xml');

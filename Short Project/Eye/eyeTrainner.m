@@ -31,7 +31,7 @@ k = 1;
 
 for i = 1:n
    I = uint8(squeeze(trainImgs(i,:,:)));
-   [IeyeL, IeyeR, Leye, Reye] = getEyeImgs(I,trainEyes(i,:));
+   [IeyeL, IeyeR, Leye, Reye] = getEyeImgs(I,trainEyesLab(i,:));
    %Training eyes
    if(Mode ~= 1) 
        OE((i*2)-1,:) = getObs(IeyeL);
@@ -62,7 +62,7 @@ fprintf('Created observations and negative samples \n');
 fprintf('Training Tree/SVM/Adaboost/CascadeDetector .... \n');
 
 if(Mode == 2) 
-    cpredictor = TreeBagger(20, [OE; ON], [L_eye; L_neye]);
+    predictorEye = TreeBagger(20, [OE; ON], [L_eye; L_neye]);
 elseif(Mode == 3) 
     vpredictor = fitcsvm([OE; ON], [L_eye; L_neye]);
 elseif(Mode == 1) 
