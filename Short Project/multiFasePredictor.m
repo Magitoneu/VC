@@ -1,5 +1,5 @@
 %I = imread() .... Les nostres, despres risize
-I = imread('/home/mt7/Pictures/Webcam/L1.jpg');
+I = imread('/home/mt7/Pictures/Webcam/NL1.jpg');
 I = imcrop(I, [245 0 1430 1080]);
 I = rgb2gray(I);
 I = imresize(I, [286 384]);

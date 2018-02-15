@@ -1,20 +1,20 @@
 
 pathUni = 'I:\vc\Short Project\*.pgm';
-pathCasa = '/home/david/UPC/Images/Short Project/';
-imf = dir('/home/david/UPC/Images/Short Project/*.pgm'); % llista d'imatges amb extensio bmp
+%pathCasa = '/home/david/UPC/Images/Short Project/';
+%imf = dir('/home/david/UPC/Images/Short Project/*.pgm'); % llista d'imatges amb extensio bmp
 
-%pathCasa = '/home/mt7/UPC/4rt/vc/Images/ShortProject/';
-%imf = dir('/home/mt7/UPC/4rt/vc/Images/ShortProject/*.pgm'); % llista d'imatges amb extensio bmp
+pathCasa = '/home/mt7/UPC/4rt/vc/Images/ShortProject/';
+imf = dir('/home/mt7/UPC/4rt/vc/Images/ShortProject/*.pgm'); % llista d'imatges amb extensio bmp
 
 
 n = 1521; % nombre d'imatges en el directori
 images = zeros([n*2,286,384]); % array n imatges de mida 100 x 100
 eyes = zeros([n*2 4]);
-eyesPath = '/home/david/UPC/Images/Eyes/';
-mkdir '/home/david/UPC/Images/Eyes';
+%eyesPath = '/home/david/UPC/Images/Eyes/';
+%mkdir '/home/david/UPC/Images/Eyes';
 
-%eyesPath = '/home/mt7/UPC/4rt/vc/Images/Eyes/';
-%mkdir '/home/mt7/UPC/4rt/vc/Images/Eyes';
+eyesPath = '/home/mt7/UPC/4rt/vc/Images/Eyes/';
+mkdir '/home/mt7/UPC/4rt/vc/Images/Eyes';
 
 eyesDB = zeros([n*4,30,40]);
 
@@ -58,7 +58,7 @@ for i = 1 : n
      
 end
 
-classifiedEyes = xlsread('/home/david/UPC/Images/Eyes/Miram.xlsx');
-%classifiedEyes = xlsread('/home/mt7/UPC/4rt/vc/Images/Eyes/Miram.xlsx');
+%classifiedEyes = xlsread('/home/david/UPC/Images/Eyes/Miram.xlsx');
+classifiedEyes = xlsread('/home/mt7/UPC/4rt/vc/Images/Eyes/Miram.xlsx');
 classifiedEyes = [classifiedEyes(:,5) classifiedEyes(:,5) classifiedEyes(:,5) classifiedEyes(:,5)];
 classifiedEyes = reshape(classifiedEyes',[1,6084]);
